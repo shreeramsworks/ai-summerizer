@@ -21,7 +21,10 @@ A Next.js application for summarizing meetings using AI, built with Supabase for
 
 1. Clone the repository
 2. Install dependencies: `npm install`
-3. Set up environment variables for Supabase
+3. Set up environment variables for Supabase:
+   - Copy `.env.example` to `.env.local`
+   - Add your Supabase project URL and anon key
+   - For Vercel deployment, add these in your project settings
 4. Run development server: `npm run dev`
 
 ## Project Structure
