@@ -1,6 +1,7 @@
 import type {Metadata} from 'next';
 import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
+import EnvCheck from "@/components/EnvCheck"
 
 export const metadata: Metadata = {
   title: 'Meeting Summarizer Pro',
@@ -22,6 +23,7 @@ export default function RootLayout({
       <body className="font-body antialiased">
         {children}
         <Toaster />
+        <EnvCheck />
       </body>
     </html>
   );

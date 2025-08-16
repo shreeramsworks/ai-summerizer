@@ -30,6 +30,16 @@ export default function AuthForm({ mode, onClose }: AuthFormProps) {
     setIsLoading(true);
 
     try {
+      // Check if Supabase is properly configured
+      if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+        toast({
+          variant: "destructive",
+          title: "Configuration Error",
+          description: "Supabase is not configured. Please contact support.",
+        });
+        return;
+      }
+
       if (mode === "signup") {
         const { data, error } = await supabase.auth.signUp({
           email,

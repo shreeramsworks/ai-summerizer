@@ -9,6 +9,9 @@ import AuthForm from '@/components/AuthForm';
 
 export default function Home() {
   const [authMode, setAuthMode] = useState<'login' | 'signup' | null>(null);
+  
+  // Check if Supabase is configured
+  const isSupabaseConfigured = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
   return (
     <>
@@ -19,8 +22,16 @@ export default function Home() {
               <h1 className="text-xl font-bold">Meeting Summarizer Pro</h1>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" onClick={() => setAuthMode('login')}>Sign In</Button>
-            <Button onClick={() => setAuthMode('signup')}>Sign Up</Button>
+            {isSupabaseConfigured ? (
+              <>
+                <Button variant="ghost" onClick={() => setAuthMode('login')}>Sign In</Button>
+                <Button onClick={() => setAuthMode('signup')}>Sign Up</Button>
+              </>
+            ) : (
+              <div className="text-sm text-yellow-600 bg-yellow-100 px-3 py-1 rounded">
+                ⚠️ Supabase not configured
+              </div>
+            )}
           </div>
         </header>
 
@@ -32,7 +43,13 @@ export default function Home() {
               <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto mb-8">
                   Stop wasting time on meeting notes. Upload your transcripts and get instant, AI-powered summaries, action items, and reminders.
               </p>
-              <Button size="lg" onClick={() => setAuthMode('signup')}>Get Started for Free</Button>
+              <Button 
+                size="lg" 
+                onClick={() => setAuthMode('signup')}
+                disabled={!isSupabaseConfigured}
+              >
+                {isSupabaseConfigured ? 'Get Started for Free' : 'Setup Required'}
+              </Button>
           </section>
 
           <section>
@@ -85,7 +102,7 @@ export default function Home() {
           </footer>
       </div>
 
-      {authMode && (
+      {authMode && isSupabaseConfigured && (
         <AuthForm
           mode={authMode}
           onClose={() => setAuthMode(null)}
